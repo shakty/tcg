@@ -1,0 +1,34 @@
+[{
+    "time": 3960,
+    "timeup": false,
+    "done": true,
+    "player": "898632875042728",
+    "stage": {
+        "stage": 1,
+        "step": 1,
+        "round": 1
+    },
+    "timestamp": 1588800291326
+}, {
+    "time": 4942,
+    "timeup": false,
+    "done": true,
+    "player": "261918451691365",
+    "stage": {
+        "stage": 1,
+        "step": 1,
+        "round": 1
+    },
+    "timestamp": 1588800292308
+}, {
+    "time": 4144,
+    "timeup": false,
+    "done": true,
+    "player": "898632875042728",
+    "stage": {
+        "stage": 1,
+        "step": 1,
+        "round": 2
+    },
+    "timestamp": 1588800296596
+}]

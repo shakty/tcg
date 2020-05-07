@@ -1,0 +1,8 @@
+{
+    "name": "tcg",
+    "version": "0.0.1",
+    "description": "Tacit Communication Game",
+    "author": "arjsto <a.stolk8@gmail.com>",
+    "license": "MIT/X11",
+    "homepage": "http://nodegame.org"
+}

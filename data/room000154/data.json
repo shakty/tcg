@@ -1,0 +1,49 @@
+[{
+    "time": 7152,
+    "timeup": false,
+    "done": true,
+    "player": "544301380821017",
+    "stage": {
+        "stage": 1,
+        "step": 1,
+        "round": 1
+    },
+    "timestamp": 1588790402238,
+    "offer": 100,
+    "originalOffer": "!?_undefined"
+}, {
+    "time": 8056,
+    "timeup": false,
+    "done": true,
+    "player": "930481972187822",
+    "stage": {
+        "stage": 1,
+        "step": 1,
+        "round": 1
+    },
+    "timestamp": 1588790403139
+}, {
+    "time": 2039,
+    "timeup": false,
+    "done": true,
+    "player": "930481972187822",
+    "stage": {
+        "stage": 1,
+        "step": 1,
+        "round": 2
+    },
+    "timestamp": 1588790405323,
+    "offer": 100,
+    "originalOffer": "!?_undefined"
+}, {
+    "time": 5483,
+    "timeup": false,
+    "done": true,
+    "player": "544301380821017",
+    "stage": {
+        "stage": 1,
+        "step": 1,
+        "round": 2
+    },
+    "timestamp": 1588790408765
+}]
