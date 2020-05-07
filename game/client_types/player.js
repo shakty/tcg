@@ -13,10 +13,10 @@
 
 "use strict";
 
-module.exports = function (treatmentName, settings, stager, setup, gameRoom) {
+// Import other functions used in the game.
+const CanvasManager = require(__dirname + '/includes/CanvasManager.js');
 
-    // Import other functions used in the game.
-    var cbs = require(__dirname + '/includes/player.callbacks.js');
+module.exports = function (treatmentName, settings, stager, setup, gameRoom) {
 
     // Init callback.
     stager.setOnInit(function () {
@@ -41,12 +41,17 @@ module.exports = function (treatmentName, settings, stager, setup, gameRoom) {
             scale: 1, // for outside token this is .75
             state: 0, // 0, 1, 2 (ready, in-use, done)
             usetime: [], // usage time
-            maxtime: 10000 // maximum time alloted
+            maxtime: 1000000 // maximum time alloted
         };
     });
 
     stager.extendStep('instructions', {
         frame: 'instructions.htm'
+    });
+
+    // Will be available for all steps.
+    stager.extendStage('tcg', {
+        CanvasManager: CanvasManager
     });
 
     // SENDER TURN
@@ -55,22 +60,26 @@ module.exports = function (treatmentName, settings, stager, setup, gameRoom) {
         init: function () {
             W.init({ adjustFrameHeight: false });
         },
-        callbacks: {
-            init_gameboard: cbs.init_gameboard,
-            draw_gameboard: cbs.draw_gameboard,
-            draw_token: cbs.draw_token,
-            move_token: cbs.move_token,
-        },
         roles: {
             SENDER: {     // SENDER SCREEN
                 //donebutton: false,
-                timer: settings.bidTime,
+                // timer: settings.bidTime,
                 cb: function () {
-                    var callbacks = node.game.getProperty('callbacks');
-                    callbacks.init_gameboard();
-                    callbacks.draw_gameboard();
-                    //callbacks.draw_token();
-                    //callbacks.move_token();
+                    var CanvasManager = node.game.getProperty('CanvasManager');
+                    node.game.canvas = new CanvasManager(node.game.token);
+                    var canvasMng = node.game.canvas;
+                    canvasMng.init();
+                    canvasMng.drawCanvas();
+                    canvasMng.drawToken();
+                    canvasMng.addEventListener();
+
+                    canvasMng.moveToken({ code: 'Space'});
+                    canvasMng.moveToken({ code: 'ArrowUp'});
+
+                    // At every move:
+                    // Fill-in token info.
+                    var tokenInfo = {};
+                    node.say('tokenMoved', this.partner, tokenInfo)
                 },
 
                     /*var button, offer;
@@ -101,20 +110,28 @@ module.exports = function (treatmentName, settings, stager, setup, gameRoom) {
                 },
                 */
                 timeup: function () {
-                    var n;
-                    // Generate random value.
-                    n = J.randomInt(-1, 100);
-                    // Set value in the input box.
-                    W.gid('offer').value = n;
-                    // Click the submit button to trigger the event listener.
-                    W.gid('submitOffer').click();
+                    // Not used now.
+                    console.log('timeout');
+                    // var n;
+                    // // Generate random value.
+                    // n = J.randomInt(-1, 100);
+                    // // Set value in the input box.
+                    // W.gid('offer').value = n;
+                    // // Click the submit button to trigger the event listener.
+                    // W.gid('submitOffer').click();
                 }
             },
             RECEIVER: {   // RECEIVER SCREEN
                 cb: function () {
-                    var callbacks = node.game.getProperty('callbacks');
-                    callbacks.init_gameboard();
-                    callbacks.draw_gameboard();
+                    var CanvasManager = node.game.getProperty('CanvasManager');
+                    node.game.canvas = new CanvasManager(node.game.token);
+                    var canvasMng = node.game.canvas;
+                    canvasMng.init();
+                    canvasMng.drawCanvas();
+
+                    node.on.data('tokenMoved', function(msg) {
+                        // msg.data contains info.
+                    });
                 },
                 /*
                 cb: function () {
@@ -158,28 +175,27 @@ module.exports = function (treatmentName, settings, stager, setup, gameRoom) {
         //////////////////////////////////////////////////////////
         role: function() { return this.role; },
         partner: function() { return this.partner; },
-        frame: 'canvas.htm',
+        // No need to re-enter frame in the same stage.
+        // frame: 'canvas.htm',
         init: function () {
             W.init({ adjustFrameHeight: false });
         },
-        callbacks: {
-            init_gameboard: cbs.init_gameboard,
-            draw_gameboard: cbs.draw_gameboard,
-        },
         roles: {
             RECEIVER: {   // RECEIVER SCREEN
-                timer: settings.bidTime,
+                // timer: settings.bidTime,
                 cb: function () {
-                    var callbacks = node.game.getProperty('callbacks');
-                    callbacks.init_gameboard();
-                    callbacks.draw_gameboard();
+                    // var CanvasManager = node.game.getProperty('CanvasManager');
+                    // var canvasMng = new CanvasManager();
+                    // canvasMng.init();
+                    // canvasMng.drawCanvas();
                 },
             },
             SENDER: {     // SENDER SCREEN
                 cb: function () {
-                    var callbacks = node.game.getProperty('callbacks');
-                    callbacks.init_gameboard();
-                    callbacks.draw_gameboard();
+                    // var CanvasManager = node.game.getProperty('CanvasManager');
+                    // var canvasMng = new CanvasManager();
+                    // canvasMng.init();
+                    // canvasMng.drawCanvas();
                 },
             },
         }
