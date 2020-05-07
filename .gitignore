@@ -10,3 +10,5 @@ node_modules
 *.geany
 *.swp
 Session.vim
+
+data/
